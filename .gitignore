@@ -1,1 +1,8 @@
 /.idea/.gitignore
+/.idea/high_school.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/tasks/tests/task_1_squirrel_test.py
+/.idea/vcs.xml
