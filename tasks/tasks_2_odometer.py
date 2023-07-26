@@ -6,6 +6,3 @@ def odometer(a: list[int]) -> int:
         time += i[1]
 
     return distance
-
-
-print(odometer([10, 1, 15, 4, 5, 8]))
