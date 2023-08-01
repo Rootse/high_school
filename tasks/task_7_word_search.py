@@ -1,28 +1,18 @@
 def WordSearch(l: int, s: str, subs: str) -> list[int]:
-    lines = []
+    r = [[0, 0]]
     words = s.split()
-    line = ""
 
     for word in words:
-        if len(line) + len(word) <= l:
-            line += word + " "
-        else:
-            # if not line and len(word) > l:
-            #     lines += [word[i:i + l] for i in range(0, len(word), l)]
-            lines.append(line.strip())
-            line = word + " "
+        r[-1][0] += len(word) + 1
+        i = 1 if word == subs else 0
 
-    if line:
-        lines.append(line.strip())
+        if len(word) > l:
+            r += [[0, i] for _ in range(int(-1 * (len(word) / l) // 1 * -1))]
+            r[-1][0] = len(word) % l
+            continue
 
-    print(lines)
-    result = []
-    for line in lines:
-        if subs in line.split():
-            result.append(1)
-        else:
-            result.append(0)
-    return result
+        if r[-1][0] > l:
+            r.append([len(word) + 1, i])
 
+    return [i for _, i in r]
 
-print(WordSearch(8, "строка разбивается на набор строк через выравнивание по заданной ширине.", "разбивается"))
