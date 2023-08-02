@@ -1,18 +1,22 @@
 def WordSearch(l: int, s: str, subs: str) -> list[int]:
-    r = [[0, 0]]
+    result = [0]
+    length = 0
     words = s.split()
 
     for word in words:
-        r[-1][0] += len(word) + 1
-        i = 1 if word == subs else 0
+        length += len(word) + 1
 
         if len(word) > l:
-            r += [[0, i] for _ in range(int(-1 * (len(word) / l) // 1 * -1))]
-            r[-1][0] = len(word) % l
+            result.pop(-1)
+            result += [1 if word[i:i+l] == subs else 0 for i in range(0, len(word), l)]
+            length = len(word) % l
             continue
 
-        if r[-1][0] > l:
-            r.append([len(word) + 1, i])
+        if length > l:
+            result.append(0)
+            length = len(word)
 
-    return [i for _, i in r]
+        if word == subs and result[-1] == 0:
+            result[-1] = 1
 
+    return result
