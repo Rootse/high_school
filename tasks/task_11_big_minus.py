@@ -21,4 +21,7 @@ def BigMinus(s1: str, s2: str) -> str:
         i -= 1
         j -= 1
 
+    while res[0] == "0" and len(res) > 1:
+        res = res[1:]
+
     return res
