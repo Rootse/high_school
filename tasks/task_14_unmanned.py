@@ -4,13 +4,18 @@ def Unmanned(l: int, n: int, track: list[list[int, int, int]]) -> int:
     if n == 0:
         return l
 
+    t = [l if t > l else t for t, r, g in track]
+
     for i in range(n):
-        t, r, g = track[i]
+        r, g = track[i][1:]
+
+        if t[i] >= l:
+            return l
 
         if i == 0:
-            total_time += t
+            total_time += t[i]
         else:
-            total_time += t - track[i - 1][0]
+            total_time += t[i] - t[i - 1]
 
         cycle_time = r + g
         total_time += r - (total_time % cycle_time) if total_time % cycle_time <= r else 0
