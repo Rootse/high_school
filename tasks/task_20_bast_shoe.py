@@ -1,31 +1,33 @@
 class Lapotle:
     def __init__(self):
         self.string = ""
-        self.history = [""]
-        self.index = 0
+        self.undo_stack = []
+        self.redo_stack = []
 
-    def add(self, s: str):
+    def add(self, s):
+        self.undo_stack += self.redo_stack
+        self.redo_stack.clear()
+        self.undo_stack.append(self.string)
         self.string += s
 
-        self.history.append(self.string)
-        self.index = len(self.history) - 1
-
-    def delete(self, n: int):
-        n = min(n, len(self.string))
+    def delete(self, n):
+        self.undo_stack += self.redo_stack
+        self.redo_stack.clear()
+        self.undo_stack.append(self.string)
         self.string = self.string[:-n]
-        self.history.append(self.string)
-        self.index = len(self.history) - 1
 
-    def issue(self, i: int):
+    def issue(self, i):
         return self.string[i] if 0 <= i < len(self.string) else ""
 
     def undo(self):
-        self.index = max(self.index - 1, 0)
-        self.string = self.history[self.index]
+        if self.undo_stack:
+            self.redo_stack.append(self.string)
+            self.string = self.undo_stack.pop()
 
     def redo(self):
-        self.index = min(self.index + 1, len(self.history) - 1)
-        self.string = self.history[self.index]
+        if self.redo_stack:
+            self.undo_stack.append(self.string)
+            self.string = self.redo_stack.pop()
 
 
 def BastShoe(command: str) -> str:
@@ -39,21 +41,16 @@ def BastShoe(command: str) -> str:
         param = cmd[1] if len(cmd) > 1 else ""
 
         actions = {
-            1: shoe.add,
-            2: shoe.delete,
-            3: shoe.issue,
-            4: shoe.undo,
-            5: shoe.redo,
+            1: lambda: shoe.add(param),
+            2: lambda: shoe.delete(int(param)),
+            3: lambda: shoe.issue(int(param)),
+            4: lambda: shoe.undo(),
+            5: lambda: shoe.redo(),
         }
 
-        if option in actions:
-            if option == 1:
-                actions[option](param)
-            elif option == 2:
-                actions[option](int(param))
-            if option == 3:
-                return actions[option](int(param))
-            elif option in (4, 5):
-                actions[option]()
+        action = actions.get(option)
+        result = action()
+        if option == 3:
+            return result
 
     return shoe.string
