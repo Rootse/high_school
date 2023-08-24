@@ -1,29 +1,18 @@
-def create_rings(matrix, m, n):
+def create_rings(matrix: list[str], m: int, n: int) -> list[list[int]]:
     rings = []
-
     for i in range(min(m, n) // 2):
-        ring = []
-
-        for j in range(i, n - i):
-            ring.append(int(matrix[i][j]))
-
-        for j in range(i + 1, m - i - 1):
-            ring.append(int(matrix[j][n - i - 1]))
-
-        for j in range(n - i - 1, i - 1, -1):
-            ring.append(int(matrix[m - i - 1][j]))
-
-        for j in range(m - i - 2, i, -1):
-            ring.append(int(matrix[j][i]))
+        ring = [int(matrix[i][j]) for j in range(i, n - i)]
+        ring += [int(matrix[j][n - i - 1]) for j in range(i + 1, m - i - 1)]
+        ring += [int(matrix[m - i - 1][j]) for j in range(n - i - 1, i - 1, -1)]
+        ring += [int(matrix[j][i]) for j in range(m - i - 2, i, -1)]
 
         rings.append(ring)
 
     return rings
 
 
-def convert_to_matrix(rings, m, n):
+def convert_to_matrix(rings: list[list[int]], m: int, n: int) -> list[str]:
     matrix = [[''] * n for _ in range(m)]
-
     for i in range(min(m, n) // 2):
         ring = rings[i]
 
@@ -42,35 +31,17 @@ def convert_to_matrix(rings, m, n):
     return [''.join(row) for row in matrix]
 
 
+def shift(arr: list[int], t: int) -> None:
+    t %= len(arr)
+    if not t:
+        return
+    arr[:t], arr[t:] = arr[-t:], arr[:-t]
+
+
 def MatrixTurn(matrix: list[str], m: int, n: int, t: int) -> None:
     rings = create_rings(matrix, m, n)
 
+    for i in range(len(rings)):
+        shift(rings[i], t)
 
-    matrix = convert_to_matrix(rings, m, n)
-
-    # temp_matrix = [[matrix[x][y] for y in range(n)] for x in range(m)]
-    # print(temp_matrix)
-    # for _ in range(t):
-    #     for i in range(m // 2):
-    #         for j in range(i, n - i - 1):
-    #             # print(i, j, m, n)
-    #             # print(n - j - 1)
-    #             # print(n - i - 1)
-    #             temp = temp_matrix[i][j]
-    #             print(temp)
-    #             temp_matrix[i][j] = temp_matrix[m - j - 1][i]
-    #             print(temp_matrix)
-    #             temp_matrix[m - j - 1][i] = temp_matrix[m - i - 1][n - j - 1]
-    #             print(temp_matrix)
-    #             temp_matrix[m - i - 1][n - j - 1] = temp_matrix[j][n - i - 1]
-    #             print(temp_matrix)
-    #             temp_matrix[j][n - i - 1] = temp
-    #             print()
-    #
-    # for i in range(m):
-    #     for j in range(n):
-    #         matrix[i][j] = temp_matrix[i][j]
-
-
-matrix = ["123456", "234567", "345678", "456789"]
-print(MatrixTurn(matrix, 4, 6, 3))
+    matrix[:] = convert_to_matrix(rings, m, n)
