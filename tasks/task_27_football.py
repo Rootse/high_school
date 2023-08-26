@@ -1,7 +1,4 @@
 def Football(f: list[int], n: int) -> bool:
-    if sorted(f) == f:
-        return True
-
     for i in range(n):
         for j in range(i + 1, n):
             f[i], f[j] = f[j], f[i]
