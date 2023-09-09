@@ -10,6 +10,8 @@ class TestDegree(TestCase):
         self.assertTrue(is_palindrome('лёша на полке клопа нашёл'))
         self.assertTrue(is_palindrome('я арка края'))
         self.assertFalse(is_palindrome('абв'))
+        self.assertFalse(is_palindrome('аббв'))
+        self.assertFalse(is_palindrome('абва'))
         self.assertTrue(is_palindrome('аб ба'))
 
 

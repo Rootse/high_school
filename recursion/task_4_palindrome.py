@@ -1,9 +1,9 @@
-def is_palindrome(s: str) -> bool:
+def is_palindrome(s: str, start: int = 0, end: int = -1) -> bool:
     s = s.replace(' ', '')
-    if len(s) < 2:
+    if start == len(s) // 2:
         return True
 
-    if s[0] != s[-1]:
+    if s[start] != s[end]:
         return False
 
-    return is_palindrome(s[1:-1])
+    return is_palindrome(s, start + 1, end - 1)
