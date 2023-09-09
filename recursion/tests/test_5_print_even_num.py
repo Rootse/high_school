@@ -23,6 +23,8 @@ class TestDegree(TestCase):
         self.assertEqual(self.output_func([]), '')
         self.assertEqual(self.output_func([1]), '')
         self.assertEqual(self.output_func([2]), '2')
+        self.assertEqual(self.output_func([1, 2, 3]), '2')
+        self.assertEqual(self.output_func([1, 2, 3, 4]), '24')
         self.assertEqual(self.output_func([1, 2, 3, 4, 5]), '24')
 
 

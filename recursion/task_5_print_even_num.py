@@ -1,10 +1,8 @@
-def print_even_num(numbers: list[int]) -> None:
-    if not numbers:
+def print_even_num(numbers: list[int], index: int = 0) -> None:
+    if len(numbers) <= index:
         return
 
-    num = numbers.pop(0)
+    if numbers[index] % 2 == 0:
+        print(numbers[index])
 
-    if num % 2 == 0:
-        print(num)
-
-    print_even_num(numbers)
+    print_even_num(numbers, index + 1)
