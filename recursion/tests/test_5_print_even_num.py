@@ -28,6 +28,5 @@ class TestDegree(TestCase):
         self.assertEqual(self.output_func([1, 2, 3, 4, 5]), '24')
 
 
-
 if __name__ == '__main__':
     main()
