@@ -5,7 +5,8 @@ from recursion.task_7_second_max import second_max
 class TestDegree(TestCase):
 
     def test_second_max(self):
-        self.assertEqual(second_max([1]), 1)
+        self.assertEqual(second_max([]), None)
+        self.assertEqual(second_max([1]), None)
         self.assertEqual(second_max([1, 2]), 1)
         self.assertEqual(second_max([2, 2]), 2)
         self.assertEqual(second_max([1, 2, 3]), 2)
